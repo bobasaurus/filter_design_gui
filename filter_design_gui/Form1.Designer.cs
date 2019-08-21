@@ -38,8 +38,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageImpulse = new System.Windows.Forms.TabPage();
             this.zgcImpulseResponse = new ZedGraph.ZedGraphControl();
-            this.tabPageFrequency = new System.Windows.Forms.TabPage();
-            this.zgcFrequencyResponse = new ZedGraph.ZedGraphControl();
+            this.tabPageFrequencyLog = new System.Windows.Forms.TabPage();
+            this.zgcFrequencyResponseLog = new ZedGraph.ZedGraphControl();
             this.comboBoxWindow = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -50,9 +50,15 @@
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonCopyCSV = new System.Windows.Forms.Button();
             this.clearButton = new System.Windows.Forms.Button();
+            this.tabPageFrequencyLinear = new System.Windows.Forms.TabPage();
+            this.zgcFrequencyResponseLinear = new ZedGraph.ZedGraphControl();
+            this.tabPageStepResponse = new System.Windows.Forms.TabPage();
+            this.zgcStepResponse = new ZedGraph.ZedGraphControl();
             this.tabControl1.SuspendLayout();
             this.tabPageImpulse.SuspendLayout();
-            this.tabPageFrequency.SuspendLayout();
+            this.tabPageFrequencyLog.SuspendLayout();
+            this.tabPageFrequencyLinear.SuspendLayout();
+            this.tabPageStepResponse.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonLP
@@ -69,20 +75,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(43, 15);
+            this.label1.Location = new System.Drawing.Point(21, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 13);
+            this.label1.Size = new System.Drawing.Size(93, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Sample Rate:";
+            this.label1.Text = "Sample Rate [Hz]:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 41);
+            this.label2.Location = new System.Drawing.Point(1, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 13);
+            this.label2.Size = new System.Drawing.Size(113, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Cutoff Frequency:";
+            this.label2.Text = "Cutoff Frequency [Hz]:";
             // 
             // label3
             // 
@@ -118,8 +124,10 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPageFrequency);
+            this.tabControl1.Controls.Add(this.tabPageFrequencyLog);
+            this.tabControl1.Controls.Add(this.tabPageFrequencyLinear);
             this.tabControl1.Controls.Add(this.tabPageImpulse);
+            this.tabControl1.Controls.Add(this.tabPageStepResponse);
             this.tabControl1.Location = new System.Drawing.Point(167, 114);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -153,32 +161,32 @@
             this.zgcImpulseResponse.TabIndex = 0;
             this.zgcImpulseResponse.UseExtendedPrintDialog = true;
             // 
-            // tabPageFrequency
+            // tabPageFrequencyLog
             // 
-            this.tabPageFrequency.Controls.Add(this.zgcFrequencyResponse);
-            this.tabPageFrequency.Location = new System.Drawing.Point(4, 22);
-            this.tabPageFrequency.Name = "tabPageFrequency";
-            this.tabPageFrequency.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFrequency.Size = new System.Drawing.Size(655, 536);
-            this.tabPageFrequency.TabIndex = 1;
-            this.tabPageFrequency.Text = "Frequency Response";
-            this.tabPageFrequency.UseVisualStyleBackColor = true;
+            this.tabPageFrequencyLog.Controls.Add(this.zgcFrequencyResponseLog);
+            this.tabPageFrequencyLog.Location = new System.Drawing.Point(4, 22);
+            this.tabPageFrequencyLog.Name = "tabPageFrequencyLog";
+            this.tabPageFrequencyLog.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageFrequencyLog.Size = new System.Drawing.Size(655, 536);
+            this.tabPageFrequencyLog.TabIndex = 1;
+            this.tabPageFrequencyLog.Text = "Frequency Response (Log)";
+            this.tabPageFrequencyLog.UseVisualStyleBackColor = true;
             // 
-            // zgcFrequencyResponse
+            // zgcFrequencyResponseLog
             // 
-            this.zgcFrequencyResponse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zgcFrequencyResponse.Location = new System.Drawing.Point(3, 3);
-            this.zgcFrequencyResponse.Name = "zgcFrequencyResponse";
-            this.zgcFrequencyResponse.ScrollGrace = 0D;
-            this.zgcFrequencyResponse.ScrollMaxX = 0D;
-            this.zgcFrequencyResponse.ScrollMaxY = 0D;
-            this.zgcFrequencyResponse.ScrollMaxY2 = 0D;
-            this.zgcFrequencyResponse.ScrollMinX = 0D;
-            this.zgcFrequencyResponse.ScrollMinY = 0D;
-            this.zgcFrequencyResponse.ScrollMinY2 = 0D;
-            this.zgcFrequencyResponse.Size = new System.Drawing.Size(649, 530);
-            this.zgcFrequencyResponse.TabIndex = 1;
-            this.zgcFrequencyResponse.UseExtendedPrintDialog = true;
+            this.zgcFrequencyResponseLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zgcFrequencyResponseLog.Location = new System.Drawing.Point(3, 3);
+            this.zgcFrequencyResponseLog.Name = "zgcFrequencyResponseLog";
+            this.zgcFrequencyResponseLog.ScrollGrace = 0D;
+            this.zgcFrequencyResponseLog.ScrollMaxX = 0D;
+            this.zgcFrequencyResponseLog.ScrollMaxY = 0D;
+            this.zgcFrequencyResponseLog.ScrollMaxY2 = 0D;
+            this.zgcFrequencyResponseLog.ScrollMinX = 0D;
+            this.zgcFrequencyResponseLog.ScrollMinY = 0D;
+            this.zgcFrequencyResponseLog.ScrollMinY2 = 0D;
+            this.zgcFrequencyResponseLog.Size = new System.Drawing.Size(649, 530);
+            this.zgcFrequencyResponseLog.TabIndex = 1;
+            this.zgcFrequencyResponseLog.UseExtendedPrintDialog = true;
             // 
             // comboBoxWindow
             // 
@@ -245,6 +253,7 @@
             // 
             // buttonCopy
             // 
+            this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCopy.Location = new System.Drawing.Point(12, 649);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(54, 23);
@@ -255,6 +264,7 @@
             // 
             // buttonCopyCSV
             // 
+            this.buttonCopyCSV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCopyCSV.Location = new System.Drawing.Point(72, 649);
             this.buttonCopyCSV.Name = "buttonCopyCSV";
             this.buttonCopyCSV.Size = new System.Drawing.Size(54, 23);
@@ -273,6 +283,58 @@
             this.clearButton.Text = "Clear";
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            // 
+            // tabPageFrequencyLinear
+            // 
+            this.tabPageFrequencyLinear.Controls.Add(this.zgcFrequencyResponseLinear);
+            this.tabPageFrequencyLinear.Location = new System.Drawing.Point(4, 22);
+            this.tabPageFrequencyLinear.Name = "tabPageFrequencyLinear";
+            this.tabPageFrequencyLinear.Size = new System.Drawing.Size(655, 536);
+            this.tabPageFrequencyLinear.TabIndex = 2;
+            this.tabPageFrequencyLinear.Text = "Frequency Response (Linear)";
+            this.tabPageFrequencyLinear.UseVisualStyleBackColor = true;
+            // 
+            // zgcFrequencyResponseLinear
+            // 
+            this.zgcFrequencyResponseLinear.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zgcFrequencyResponseLinear.Location = new System.Drawing.Point(0, 0);
+            this.zgcFrequencyResponseLinear.Name = "zgcFrequencyResponseLinear";
+            this.zgcFrequencyResponseLinear.ScrollGrace = 0D;
+            this.zgcFrequencyResponseLinear.ScrollMaxX = 0D;
+            this.zgcFrequencyResponseLinear.ScrollMaxY = 0D;
+            this.zgcFrequencyResponseLinear.ScrollMaxY2 = 0D;
+            this.zgcFrequencyResponseLinear.ScrollMinX = 0D;
+            this.zgcFrequencyResponseLinear.ScrollMinY = 0D;
+            this.zgcFrequencyResponseLinear.ScrollMinY2 = 0D;
+            this.zgcFrequencyResponseLinear.Size = new System.Drawing.Size(655, 536);
+            this.zgcFrequencyResponseLinear.TabIndex = 2;
+            this.zgcFrequencyResponseLinear.UseExtendedPrintDialog = true;
+            // 
+            // tabPageStepResponse
+            // 
+            this.tabPageStepResponse.Controls.Add(this.zgcStepResponse);
+            this.tabPageStepResponse.Location = new System.Drawing.Point(4, 22);
+            this.tabPageStepResponse.Name = "tabPageStepResponse";
+            this.tabPageStepResponse.Size = new System.Drawing.Size(655, 536);
+            this.tabPageStepResponse.TabIndex = 3;
+            this.tabPageStepResponse.Text = "Step Response";
+            this.tabPageStepResponse.UseVisualStyleBackColor = true;
+            // 
+            // zgcStepResponse
+            // 
+            this.zgcStepResponse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zgcStepResponse.Location = new System.Drawing.Point(0, 0);
+            this.zgcStepResponse.Name = "zgcStepResponse";
+            this.zgcStepResponse.ScrollGrace = 0D;
+            this.zgcStepResponse.ScrollMaxX = 0D;
+            this.zgcStepResponse.ScrollMaxY = 0D;
+            this.zgcStepResponse.ScrollMaxY2 = 0D;
+            this.zgcStepResponse.ScrollMinX = 0D;
+            this.zgcStepResponse.ScrollMinY = 0D;
+            this.zgcStepResponse.ScrollMinY2 = 0D;
+            this.zgcStepResponse.Size = new System.Drawing.Size(655, 536);
+            this.zgcStepResponse.TabIndex = 1;
+            this.zgcStepResponse.UseExtendedPrintDialog = true;
             // 
             // Form1
             // 
@@ -297,10 +359,12 @@
             this.Controls.Add(this.textBoxSampleRate);
             this.Controls.Add(this.buttonLP);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Filter Design";
             this.tabControl1.ResumeLayout(false);
             this.tabPageImpulse.ResumeLayout(false);
-            this.tabPageFrequency.ResumeLayout(false);
+            this.tabPageFrequencyLog.ResumeLayout(false);
+            this.tabPageFrequencyLinear.ResumeLayout(false);
+            this.tabPageStepResponse.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -319,9 +383,9 @@
         private System.Windows.Forms.Label labelCoeffs;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageImpulse;
-        private System.Windows.Forms.TabPage tabPageFrequency;
+        private System.Windows.Forms.TabPage tabPageFrequencyLog;
         private ZedGraph.ZedGraphControl zgcImpulseResponse;
-        private ZedGraph.ZedGraphControl zgcFrequencyResponse;
+        private ZedGraph.ZedGraphControl zgcFrequencyResponseLog;
         private System.Windows.Forms.ComboBox comboBoxWindow;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxGaussSigma;
@@ -329,6 +393,10 @@
         private System.Windows.Forms.Button buttonCopy;
         private System.Windows.Forms.Button buttonCopyCSV;
         private System.Windows.Forms.Button clearButton;
+        private System.Windows.Forms.TabPage tabPageFrequencyLinear;
+        private ZedGraph.ZedGraphControl zgcFrequencyResponseLinear;
+        private System.Windows.Forms.TabPage tabPageStepResponse;
+        private ZedGraph.ZedGraphControl zgcStepResponse;
     }
 }
 
