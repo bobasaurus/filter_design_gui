@@ -82,5 +82,17 @@ namespace filter_design_gui.Properties {
                 this["gaussSigma"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cutoffFrequency2 {
+            get {
+                return ((string)(this["cutoffFrequency2"]));
+            }
+            set {
+                this["cutoffFrequency2"] = value;
+            }
+        }
     }
 }

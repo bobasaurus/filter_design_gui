@@ -49,12 +49,16 @@
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxGaussSigma = new System.Windows.Forms.TextBox();
             this.textBoxFilterLength = new System.Windows.Forms.TextBox();
-            this.textBoxCutoffFrequency = new System.Windows.Forms.TextBox();
+            this.textBoxCutoffFrequency1 = new System.Windows.Forms.TextBox();
             this.textBoxSampleRate = new System.Windows.Forms.TextBox();
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonCopyCSV = new System.Windows.Forms.Button();
             this.clearButton = new System.Windows.Forms.Button();
             this.buttonLPNWaves = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxCutoffFrequency2 = new System.Windows.Forms.TextBox();
+            this.buttonBPMathNET = new System.Windows.Forms.Button();
+            this.buttonBPNWaves = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageFrequencyLog.SuspendLayout();
             this.tabPageFrequencyLinear.SuspendLayout();
@@ -76,7 +80,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 15);
+            this.label1.Location = new System.Drawing.Point(32, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 13);
             this.label1.TabIndex = 4;
@@ -85,16 +89,16 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1, 41);
+            this.label2.Location = new System.Drawing.Point(12, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 13);
+            this.label2.Size = new System.Drawing.Size(122, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Cutoff Frequency [Hz]:";
+            this.label2.Text = "Cutoff Frequency 1 [Hz]:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(46, 67);
+            this.label3.Location = new System.Drawing.Point(259, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 6;
@@ -245,15 +249,15 @@
             // 
             this.comboBoxWindow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxWindow.FormattingEnabled = true;
-            this.comboBoxWindow.Location = new System.Drawing.Point(312, 12);
+            this.comboBoxWindow.Location = new System.Drawing.Point(519, 12);
             this.comboBoxWindow.Name = "comboBoxWindow";
-            this.comboBoxWindow.Size = new System.Drawing.Size(265, 21);
+            this.comboBoxWindow.Size = new System.Drawing.Size(100, 21);
             this.comboBoxWindow.TabIndex = 10;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(257, 15);
+            this.label5.Location = new System.Drawing.Point(464, 15);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 11;
@@ -262,7 +266,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(234, 44);
+            this.label6.Location = new System.Drawing.Point(441, 44);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(72, 13);
             this.label6.TabIndex = 13;
@@ -271,7 +275,7 @@
             // textBoxGaussSigma
             // 
             this.textBoxGaussSigma.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::filter_design_gui.Properties.Settings.Default, "gaussSigma", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBoxGaussSigma.Location = new System.Drawing.Point(312, 41);
+            this.textBoxGaussSigma.Location = new System.Drawing.Point(519, 41);
             this.textBoxGaussSigma.Name = "textBoxGaussSigma";
             this.textBoxGaussSigma.Size = new System.Drawing.Size(100, 20);
             this.textBoxGaussSigma.TabIndex = 12;
@@ -280,25 +284,25 @@
             // textBoxFilterLength
             // 
             this.textBoxFilterLength.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::filter_design_gui.Properties.Settings.Default, "filterLength", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBoxFilterLength.Location = new System.Drawing.Point(117, 64);
+            this.textBoxFilterLength.Location = new System.Drawing.Point(330, 12);
             this.textBoxFilterLength.Name = "textBoxFilterLength";
             this.textBoxFilterLength.Size = new System.Drawing.Size(100, 20);
             this.textBoxFilterLength.TabIndex = 3;
             this.textBoxFilterLength.Text = global::filter_design_gui.Properties.Settings.Default.filterLength;
             // 
-            // textBoxCutoffFrequency
+            // textBoxCutoffFrequency1
             // 
-            this.textBoxCutoffFrequency.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::filter_design_gui.Properties.Settings.Default, "cutoffFrequency", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBoxCutoffFrequency.Location = new System.Drawing.Point(117, 38);
-            this.textBoxCutoffFrequency.Name = "textBoxCutoffFrequency";
-            this.textBoxCutoffFrequency.Size = new System.Drawing.Size(100, 20);
-            this.textBoxCutoffFrequency.TabIndex = 2;
-            this.textBoxCutoffFrequency.Text = global::filter_design_gui.Properties.Settings.Default.cutoffFrequency;
+            this.textBoxCutoffFrequency1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::filter_design_gui.Properties.Settings.Default, "cutoffFrequency", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBoxCutoffFrequency1.Location = new System.Drawing.Point(140, 38);
+            this.textBoxCutoffFrequency1.Name = "textBoxCutoffFrequency1";
+            this.textBoxCutoffFrequency1.Size = new System.Drawing.Size(100, 20);
+            this.textBoxCutoffFrequency1.TabIndex = 2;
+            this.textBoxCutoffFrequency1.Text = global::filter_design_gui.Properties.Settings.Default.cutoffFrequency;
             // 
             // textBoxSampleRate
             // 
             this.textBoxSampleRate.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::filter_design_gui.Properties.Settings.Default, "sampleRate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBoxSampleRate.Location = new System.Drawing.Point(117, 12);
+            this.textBoxSampleRate.Location = new System.Drawing.Point(140, 12);
             this.textBoxSampleRate.Name = "textBoxSampleRate";
             this.textBoxSampleRate.Size = new System.Drawing.Size(100, 20);
             this.textBoxSampleRate.TabIndex = 1;
@@ -329,10 +333,10 @@
             // clearButton
             // 
             this.clearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearButton.Location = new System.Drawing.Point(755, 93);
+            this.clearButton.Location = new System.Drawing.Point(308, 88);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(75, 23);
-            this.clearButton.TabIndex = 16;
+            this.clearButton.TabIndex = 2;
             this.clearButton.Text = "Clear";
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.ClearButton_Click);
@@ -343,16 +347,60 @@
             this.buttonLPNWaves.Location = new System.Drawing.Point(691, 39);
             this.buttonLPNWaves.Name = "buttonLPNWaves";
             this.buttonLPNWaves.Size = new System.Drawing.Size(139, 23);
-            this.buttonLPNWaves.TabIndex = 17;
+            this.buttonLPNWaves.TabIndex = 1;
             this.buttonLPNWaves.Text = "Calc Lowpass NWaves";
             this.buttonLPNWaves.UseVisualStyleBackColor = true;
             this.buttonLPNWaves.Click += new System.EventHandler(this.ButtonLPNWaves_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 67);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(122, 13);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Cutoff Frequency 2 [Hz]:";
+            // 
+            // textBoxCutoffFrequency2
+            // 
+            this.textBoxCutoffFrequency2.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::filter_design_gui.Properties.Settings.Default, "cutoffFrequency2", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBoxCutoffFrequency2.Location = new System.Drawing.Point(140, 64);
+            this.textBoxCutoffFrequency2.Name = "textBoxCutoffFrequency2";
+            this.textBoxCutoffFrequency2.Size = new System.Drawing.Size(100, 20);
+            this.textBoxCutoffFrequency2.TabIndex = 18;
+            this.textBoxCutoffFrequency2.Text = global::filter_design_gui.Properties.Settings.Default.cutoffFrequency2;
+            // 
+            // buttonBPMathNET
+            // 
+            this.buttonBPMathNET.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonBPMathNET.Location = new System.Drawing.Point(691, 67);
+            this.buttonBPMathNET.Name = "buttonBPMathNET";
+            this.buttonBPMathNET.Size = new System.Drawing.Size(139, 23);
+            this.buttonBPMathNET.TabIndex = 20;
+            this.buttonBPMathNET.Text = "Calc Bandpass Math.NET";
+            this.buttonBPMathNET.UseVisualStyleBackColor = true;
+            this.buttonBPMathNET.Click += new System.EventHandler(this.ButtonBPMathNET_Click);
+            // 
+            // buttonBPNWaves
+            // 
+            this.buttonBPNWaves.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonBPNWaves.Location = new System.Drawing.Point(691, 96);
+            this.buttonBPNWaves.Name = "buttonBPNWaves";
+            this.buttonBPNWaves.Size = new System.Drawing.Size(139, 23);
+            this.buttonBPNWaves.TabIndex = 21;
+            this.buttonBPNWaves.Text = "Calc Bandpass NWaves";
+            this.buttonBPNWaves.UseVisualStyleBackColor = true;
+            this.buttonBPNWaves.Click += new System.EventHandler(this.ButtonBPNWaves_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(842, 688);
+            this.Controls.Add(this.buttonBPNWaves);
+            this.Controls.Add(this.buttonBPMathNET);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBoxCutoffFrequency2);
             this.Controls.Add(this.buttonLPNWaves);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.buttonCopyCSV);
@@ -368,7 +416,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxFilterLength);
-            this.Controls.Add(this.textBoxCutoffFrequency);
+            this.Controls.Add(this.textBoxCutoffFrequency1);
             this.Controls.Add(this.textBoxSampleRate);
             this.Controls.Add(this.buttonLPMathNET);
             this.Name = "Form1";
@@ -387,7 +435,7 @@
 
         private System.Windows.Forms.Button buttonLPMathNET;
         private System.Windows.Forms.TextBox textBoxSampleRate;
-        private System.Windows.Forms.TextBox textBoxCutoffFrequency;
+        private System.Windows.Forms.TextBox textBoxCutoffFrequency1;
         private System.Windows.Forms.TextBox textBoxFilterLength;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -411,6 +459,10 @@
         private System.Windows.Forms.TabPage tabPageStepResponse;
         private ZedGraph.ZedGraphControl zgcStepResponse;
         private System.Windows.Forms.Button buttonLPNWaves;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxCutoffFrequency2;
+        private System.Windows.Forms.Button buttonBPMathNET;
+        private System.Windows.Forms.Button buttonBPNWaves;
     }
 }
 

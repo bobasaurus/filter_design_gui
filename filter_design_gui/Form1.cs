@@ -112,6 +112,8 @@ namespace filter_design_gui
         private void UpdateFilterResults(double sampleRate, double[] coeffs, string name, double Fc1, double Fc2)
         {
             Color randomColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+            //make the graph symbol size grow with the number of overplotted curves so all are visible if they overlap
+            int symbolSize = zgcFrequencyResponseLog.GraphPane.CurveList.Count() + 4;
 
             //show the number of filter coeffs on the GUI label
             labelCoeffs.Text = "Coeffs (" + coeffs.Length + " point kernel):";
@@ -138,7 +140,7 @@ namespace filter_design_gui
             ZedGraph.PointPairList ppl = new ZedGraph.PointPairList(xTimeRange, coeffs);
             curve = zgcImpulseResponse.GraphPane.AddCurve(name, ppl, randomColor);
             curve.Symbol.Type = ZedGraph.SymbolType.Circle;
-            curve.Symbol.Size = 5;
+            curve.Symbol.Size = symbolSize;
             curve.Symbol.Fill = new ZedGraph.Fill(curve.Color);
             curve.Line.Width = 1;
             zgcImpulseResponse.GraphPane.Title.IsVisible = false;
@@ -154,7 +156,7 @@ namespace filter_design_gui
             ZedGraph.PointPairList pplStep = new ZedGraph.PointPairList(xTimeRange, stepResponseArray);
             curve = zgcStepResponse.GraphPane.AddCurve(name, pplStep, randomColor);
             curve.Symbol.Type = ZedGraph.SymbolType.Circle;
-            curve.Symbol.Size = 5;
+            curve.Symbol.Size = symbolSize;
             curve.Symbol.Fill = new ZedGraph.Fill(curve.Color);
             curve.Line.Width = 1;
             zgcStepResponse.GraphPane.Title.IsVisible = false;
@@ -166,16 +168,17 @@ namespace filter_design_gui
             zgcStepResponse.AxisChange();
             zgcStepResponse.Refresh();
 
-            int fftSize = 65536;
+            //setup the FFT
+            int fftSize = 32768;
             int fftOrder = (int)Math.Log(fftSize, 2);
             if (Math.Pow(2, fftOrder) != fftSize) throw new Exception("darn");
-
+            
             float[] real = new float[fftSize];
             float[] imag = new float[fftSize];
             for (int i=0; i<coeffs.Length; i++)
             {
                 real[i] = (float)coeffs[i];
-                imag[i] = (float)coeffs[i];
+                imag[i] = 0;
             }
             NWaves.Transforms.Fft fft = new NWaves.Transforms.Fft(fftSize);
             fft.Direct(real, imag);
@@ -199,7 +202,7 @@ namespace filter_design_gui
             ZedGraph.PointPairList pplFreq = new ZedGraph.PointPairList(freqs.ToArray(), powers.ToArray());
             curve = zgcFrequencyResponseLog.GraphPane.AddCurve(name, pplFreq, randomColor);
             curve.Symbol.Type = ZedGraph.SymbolType.Circle;
-            curve.Symbol.Size = 5;
+            curve.Symbol.Size = symbolSize;
             curve.Symbol.Fill = new ZedGraph.Fill(curve.Color);
             curve.Line.Width = 1;
             zgcFrequencyResponseLog.GraphPane.Title.IsVisible = false;
@@ -225,7 +228,7 @@ namespace filter_design_gui
             ZedGraph.PointPairList pplFreqLinear = new ZedGraph.PointPairList(freqs.ToArray(), amplitudes.ToArray());
             curve = zgcFrequencyResponseLinear.GraphPane.AddCurve(name, pplFreqLinear, randomColor);
             curve.Symbol.Type = ZedGraph.SymbolType.Circle;
-            curve.Symbol.Size = 5;
+            curve.Symbol.Size = symbolSize;
             curve.Symbol.Fill = new ZedGraph.Fill(curve.Color);
             curve.Line.Width = 1;
             zgcFrequencyResponseLinear.GraphPane.Title.IsVisible = false;
@@ -258,7 +261,11 @@ namespace filter_design_gui
             try
             {
                 double sampleRate = double.Parse(textBoxSampleRate.Text);
-                double cutoffFreq = double.Parse(textBoxCutoffFrequency.Text);
+                double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
+                double cutoffFreq2 = double.NaN;
+                if (textBoxCutoffFrequency2.Text.Trim() != "")
+                    cutoffFreq2 = double.Parse(textBoxCutoffFrequency2.Text);
+
                 int filterLength = int.Parse(textBoxFilterLength.Text);
                 //only used for the Gauss window
                 double gaussSigma = double.Parse(textBoxGaussSigma.Text);
@@ -267,10 +274,10 @@ namespace filter_design_gui
                 var window = GetMathNETWindowFromString(windowStr, gaussSigma);
                 if (window == null) throw new Exception("Unable to determine window type");
 
-                double[] coeffs = FilterCalc.CalcLowpassFilterMathDotNet(sampleRate, cutoffFreq, filterLength, window);
+                double[] coeffs = FilterCalc.CalcLowpassFilterMathDotNet(sampleRate, cutoffFreq1, filterLength, window);
 
-                string name = string.Format("Math.NET LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq);
-                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq, double.NaN);
+                string name = string.Format("Math.NET LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq1);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
             }
             catch (Exception ex)
             {
@@ -283,18 +290,20 @@ namespace filter_design_gui
             try
             {
                 double sampleRate = double.Parse(textBoxSampleRate.Text);
-                double cutoffFreq = double.Parse(textBoxCutoffFrequency.Text);
+                double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
+                double cutoffFreq2 = double.NaN;
+                if (textBoxCutoffFrequency2.Text.Trim() != "")
+                    cutoffFreq2 = double.Parse(textBoxCutoffFrequency2.Text);
+
                 int filterLength = int.Parse(textBoxFilterLength.Text);
-                //only used for the Gauss window
-                double gaussSigma = double.Parse(textBoxGaussSigma.Text);
 
                 var windowStr = comboBoxWindow.Text;
                 var window = GetNWavesWindowFromString(windowStr);
 
-                double[] coeffs = FilterCalc.CalcLowpassFilterNWaves(sampleRate, cutoffFreq, filterLength, window);
+                double[] coeffs = FilterCalc.CalcLowpassFilterNWaves(sampleRate, cutoffFreq1, filterLength, window);
 
-                string name = string.Format("NWaves LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq);
-                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq, double.NaN);
+                string name = string.Format("NWaves LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq1);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
             }
             catch (Exception ex)
             {
@@ -319,14 +328,77 @@ namespace filter_design_gui
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            zgcFrequencyResponseLog.GraphPane.GraphObjList.Clear();
-            zgcFrequencyResponseLog.GraphPane.CurveList.Clear();
-            zgcFrequencyResponseLog.Refresh();
-            zgcImpulseResponse.GraphPane.GraphObjList.Clear();
-            zgcImpulseResponse.GraphPane.CurveList.Clear();
-            zgcImpulseResponse.Refresh();
+            ClearZGC(zgcFrequencyResponseLog);
+            ClearZGC(zgcFrequencyResponseLinear);
+            ClearZGC(zgcImpulseResponse);
+            ClearZGC(zgcStepResponse);
+        }
+        private void ClearZGC(ZedGraph.ZedGraphControl zgc)
+        {
+            zgc.GraphPane.GraphObjList.Clear();
+            zgc.GraphPane.CurveList.Clear();
+            zgc.GraphPane.XAxis.Scale.MinAuto = true;
+            zgc.GraphPane.XAxis.Scale.MaxAuto = true;
+            zgc.GraphPane.YAxis.Scale.MinAuto = true;
+            zgc.GraphPane.YAxis.Scale.MaxAuto = true;
+            zgc.GraphPane.Y2Axis.Scale.MinAuto = true;
+            zgc.GraphPane.Y2Axis.Scale.MaxAuto = true;
+            zgc.Refresh();
         }
 
+        private void ButtonBPMathNET_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double sampleRate = double.Parse(textBoxSampleRate.Text);
+                double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
+                double cutoffFreq2 = double.NaN;
+                if (textBoxCutoffFrequency2.Text.Trim() != "")
+                    cutoffFreq2 = double.Parse(textBoxCutoffFrequency2.Text);
 
+                int filterLength = int.Parse(textBoxFilterLength.Text);
+                //only used for the Gauss window
+                double gaussSigma = double.Parse(textBoxGaussSigma.Text);
+
+                var windowStr = comboBoxWindow.Text;
+                var window = GetMathNETWindowFromString(windowStr, gaussSigma);
+                if (window == null) throw new Exception("Unable to determine window type");
+
+                double[] coeffs = FilterCalc.CalcBandpassFilterMathDotNet(sampleRate, cutoffFreq1, cutoffFreq2, filterLength, window);
+
+                string name = string.Format("Math.NET BP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq1);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void ButtonBPNWaves_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double sampleRate = double.Parse(textBoxSampleRate.Text);
+                double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
+                double cutoffFreq2 = double.NaN;
+                if (textBoxCutoffFrequency2.Text.Trim() != "")
+                    cutoffFreq2 = double.Parse(textBoxCutoffFrequency2.Text);
+
+                int filterLength = int.Parse(textBoxFilterLength.Text);
+
+                var windowStr = comboBoxWindow.Text;
+                var window = GetNWavesWindowFromString(windowStr);
+
+                double[] coeffs = FilterCalc.CalcBandpassFilterNWaves(sampleRate, cutoffFreq1, cutoffFreq2, filterLength, window);
+
+                string name = string.Format("NWaves BP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq1);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
     }
 }
