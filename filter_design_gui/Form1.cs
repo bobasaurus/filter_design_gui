@@ -39,7 +39,35 @@ namespace filter_design_gui
             comboBoxWindow.SelectedIndex = Properties.Settings.Default.windowIndex;
         }
 
-        private MathNet.Filtering.Windowing.Window GetWindowFromString(string value, double gaussSigma)
+        private NWaves.Windows.WindowTypes GetNWavesWindowFromString(string value)
+        {
+            //NOTE: there are more options available in NWaves, maybe make them available in GUI someday
+            switch (value)
+            {
+                case "BartlettHann":
+                    return NWaves.Windows.WindowTypes.BartlettHann;
+                case "Blackman":
+                    return NWaves.Windows.WindowTypes.Blackman;
+                case "FlatTop":
+                    return NWaves.Windows.WindowTypes.Flattop;
+                case "Gauss":
+                    return NWaves.Windows.WindowTypes.Gaussian;
+                case "Hamming":
+                    return NWaves.Windows.WindowTypes.Hamming;
+                case "Hann":
+                    return NWaves.Windows.WindowTypes.Hann;
+                case "Lanczos":
+                    return NWaves.Windows.WindowTypes.Lanczos;
+                case "Rectangular":
+                    return NWaves.Windows.WindowTypes.Rectangular;
+                case "Triangular":
+                    return NWaves.Windows.WindowTypes.Triangular;
+                default:
+                    throw new Exception("Invalid window type for NWaves: " + value);
+            }
+        }
+
+        private MathNet.Filtering.Windowing.Window GetMathNETWindowFromString(string value, double gaussSigma)
         {
             switch (value)
             {
@@ -138,7 +166,7 @@ namespace filter_design_gui
             zgcStepResponse.AxisChange();
             zgcStepResponse.Refresh();
 
-            int fftSize = 8192;
+            int fftSize = 65536;
             int fftOrder = (int)Math.Log(fftSize, 2);
             if (Math.Pow(2, fftOrder) != fftSize) throw new Exception("darn");
 
@@ -179,6 +207,17 @@ namespace filter_design_gui
             zgcFrequencyResponseLog.GraphPane.YAxis.Title.Text = "Power [dB]";
             zgcFrequencyResponseLog.GraphPane.XAxis.Scale.Min = freqs.First();
             zgcFrequencyResponseLog.GraphPane.XAxis.Scale.Max = freqs.Last();
+            if (!double.IsNaN(Fc1))
+            {
+                double centerLineX = Fc1;
+                if (double.IsNaN(centerLineX)) centerLineX = 0;
+                var centerLine = new ZedGraph.LineObj(centerLineX, 0, centerLineX, 1);
+                centerLine.Location.CoordinateFrame = ZedGraph.CoordType.XScaleYChartFraction;
+                centerLine.Line.Width = 1;
+                centerLine.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+                centerLine.Line.Color = Color.Gray;
+                zgcFrequencyResponseLog.GraphPane.GraphObjList.Add(centerLine);
+            }
             zgcFrequencyResponseLog.AxisChange();
             zgcFrequencyResponseLog.Refresh();
 
@@ -194,6 +233,17 @@ namespace filter_design_gui
             zgcFrequencyResponseLinear.GraphPane.YAxis.Title.Text = "Amplitude";
             zgcFrequencyResponseLinear.GraphPane.XAxis.Scale.Min = freqs.First();
             zgcFrequencyResponseLinear.GraphPane.XAxis.Scale.Max = freqs.Last();
+            if (!double.IsNaN(Fc1))
+            {
+                double centerLineX = Fc1;
+                if (double.IsNaN(centerLineX)) centerLineX = 0;
+                var centerLine = new ZedGraph.LineObj(centerLineX, 0, centerLineX, 1);
+                centerLine.Location.CoordinateFrame = ZedGraph.CoordType.XScaleYChartFraction;
+                centerLine.Line.Width = 1;
+                centerLine.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+                centerLine.Line.Color = Color.Gray;
+                zgcFrequencyResponseLinear.GraphPane.GraphObjList.Add(centerLine);
+            }
             zgcFrequencyResponseLinear.AxisChange();
             zgcFrequencyResponseLinear.Refresh();
 
@@ -203,7 +253,7 @@ namespace filter_design_gui
             Properties.Settings.Default.Save();
         }
 
-        private void ButtonLP_Click(object sender, EventArgs e)
+        private void ButtonLPMathNET_Click(object sender, EventArgs e)
         {
             try
             {
@@ -214,13 +264,37 @@ namespace filter_design_gui
                 double gaussSigma = double.Parse(textBoxGaussSigma.Text);
 
                 var windowStr = comboBoxWindow.Text;
-                var window = GetWindowFromString(windowStr, gaussSigma);
+                var window = GetMathNETWindowFromString(windowStr, gaussSigma);
                 if (window == null) throw new Exception("Unable to determine window type");
 
                 double[] coeffs = FilterCalc.CalcLowpassFilterMathDotNet(sampleRate, cutoffFreq, filterLength, window);
 
-                string name = string.Format("M.N LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq);
-                UpdateFilterResults(sampleRate, coeffs, name);
+                string name = string.Format("Math.NET LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq, double.NaN);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void ButtonLPNWaves_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double sampleRate = double.Parse(textBoxSampleRate.Text);
+                double cutoffFreq = double.Parse(textBoxCutoffFrequency.Text);
+                int filterLength = int.Parse(textBoxFilterLength.Text);
+                //only used for the Gauss window
+                double gaussSigma = double.Parse(textBoxGaussSigma.Text);
+
+                var windowStr = comboBoxWindow.Text;
+                var window = GetNWavesWindowFromString(windowStr);
+
+                double[] coeffs = FilterCalc.CalcLowpassFilterNWaves(sampleRate, cutoffFreq, filterLength, window);
+
+                string name = string.Format("NWaves LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq, double.NaN);
             }
             catch (Exception ex)
             {
@@ -252,5 +326,7 @@ namespace filter_design_gui
             zgcImpulseResponse.GraphPane.CurveList.Clear();
             zgcImpulseResponse.Refresh();
         }
+
+
     }
 }

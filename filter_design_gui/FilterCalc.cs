@@ -41,5 +41,21 @@ namespace filter_design_gui
 
             return mathNetCoeffs;
         }
+
+        /**
+         * Calculate a lowpass FIR filter using NWaves (https://github.com/ar1st0crat/NWaves)
+         */
+        public static double[] CalcLowpassFilterNWaves(double sampleRate, double cutoffFrequency, int filterLength, NWaves.Windows.WindowTypes window)
+        {
+            return NWaves.Filters.Fda.DesignFilter.FirWinLp(filterLength, cutoffFrequency / sampleRate, window);
+        }
+
+        /**
+         * Calculate a bandpass FIR filter using NWaves (https://github.com/ar1st0crat/NWaves)
+         */
+        public static double[] CalcBandpassFilterNWaves(double sampleRate, double cutoffFrequencyLow, double cutoffFrequencyHigh, int filterLength, NWaves.Windows.WindowTypes window)
+        {
+            return NWaves.Filters.Fda.DesignFilter.FirWinBp(filterLength, cutoffFrequencyLow / sampleRate, cutoffFrequencyHigh / sampleRate, window);
+        }
     }
 }
