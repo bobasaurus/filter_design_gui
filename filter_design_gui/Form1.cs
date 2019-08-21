@@ -382,7 +382,7 @@ namespace filter_design_gui
 
                 double[] coeffs = FilterCalc.CalcBandpassFilterMathDotNet(sampleRate, cutoffFreq1, cutoffFreq2, filterLength, window);
 
-                string name = string.Format("Math.NET BP, SR: {0:0.}, Fc1: {1:0.0}, Fc2: {2:0.0}" + windowStr, sampleRate, cutoffFreq1, cutoffFreq2);
+                string name = string.Format("Math.NET BP, SR: {0:0.}, Fc1: {1:0.0}, Fc2: {2:0.0}, " + windowStr, sampleRate, cutoffFreq1, cutoffFreq2);
                 UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
             }
             catch (Exception ex)
@@ -408,7 +408,7 @@ namespace filter_design_gui
 
                 double[] coeffs = FilterCalc.CalcBandpassFilterNWaves(sampleRate, cutoffFreq1, cutoffFreq2, filterLength, window);
 
-                string name = string.Format("NWaves BP, SR: {0:0.}, Fc1: {1:0.0}, Fc2: {2:0.0}" + windowStr, sampleRate, cutoffFreq1, cutoffFreq2);
+                string name = string.Format("NWaves BP, SR: {0:0.}, Fc1: {1:0.0}, Fc2: {2:0.0}, " + windowStr, sampleRate, cutoffFreq1, cutoffFreq2);
                 UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
             }
             catch (Exception ex)
