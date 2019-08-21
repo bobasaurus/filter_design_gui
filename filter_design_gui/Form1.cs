@@ -221,6 +221,17 @@ namespace filter_design_gui
                 centerLine.Line.Color = Color.Gray;
                 zgcFrequencyResponseLog.GraphPane.GraphObjList.Add(centerLine);
             }
+            if (!double.IsNaN(Fc2))
+            {
+                double centerLineX = Fc2;
+                if (double.IsNaN(centerLineX)) centerLineX = 0;
+                var centerLine = new ZedGraph.LineObj(centerLineX, 0, centerLineX, 1);
+                centerLine.Location.CoordinateFrame = ZedGraph.CoordType.XScaleYChartFraction;
+                centerLine.Line.Width = 1;
+                centerLine.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+                centerLine.Line.Color = Color.Gray;
+                zgcFrequencyResponseLog.GraphPane.GraphObjList.Add(centerLine);
+            }
             zgcFrequencyResponseLog.AxisChange();
             zgcFrequencyResponseLog.Refresh();
 
@@ -247,6 +258,17 @@ namespace filter_design_gui
                 centerLine.Line.Color = Color.Gray;
                 zgcFrequencyResponseLinear.GraphPane.GraphObjList.Add(centerLine);
             }
+            if (!double.IsNaN(Fc2))
+            {
+                double centerLineX = Fc2;
+                if (double.IsNaN(centerLineX)) centerLineX = 0;
+                var centerLine = new ZedGraph.LineObj(centerLineX, 0, centerLineX, 1);
+                centerLine.Location.CoordinateFrame = ZedGraph.CoordType.XScaleYChartFraction;
+                centerLine.Line.Width = 1;
+                centerLine.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+                centerLine.Line.Color = Color.Gray;
+                zgcFrequencyResponseLinear.GraphPane.GraphObjList.Add(centerLine);
+            }
             zgcFrequencyResponseLinear.AxisChange();
             zgcFrequencyResponseLinear.Refresh();
 
@@ -262,9 +284,6 @@ namespace filter_design_gui
             {
                 double sampleRate = double.Parse(textBoxSampleRate.Text);
                 double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
-                double cutoffFreq2 = double.NaN;
-                if (textBoxCutoffFrequency2.Text.Trim() != "")
-                    cutoffFreq2 = double.Parse(textBoxCutoffFrequency2.Text);
 
                 int filterLength = int.Parse(textBoxFilterLength.Text);
                 //only used for the Gauss window
@@ -277,7 +296,7 @@ namespace filter_design_gui
                 double[] coeffs = FilterCalc.CalcLowpassFilterMathDotNet(sampleRate, cutoffFreq1, filterLength, window);
 
                 string name = string.Format("Math.NET LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq1);
-                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, double.NaN);
             }
             catch (Exception ex)
             {
@@ -291,9 +310,6 @@ namespace filter_design_gui
             {
                 double sampleRate = double.Parse(textBoxSampleRate.Text);
                 double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
-                double cutoffFreq2 = double.NaN;
-                if (textBoxCutoffFrequency2.Text.Trim() != "")
-                    cutoffFreq2 = double.Parse(textBoxCutoffFrequency2.Text);
 
                 int filterLength = int.Parse(textBoxFilterLength.Text);
 
@@ -303,7 +319,7 @@ namespace filter_design_gui
                 double[] coeffs = FilterCalc.CalcLowpassFilterNWaves(sampleRate, cutoffFreq1, filterLength, window);
 
                 string name = string.Format("NWaves LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq1);
-                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, double.NaN);
             }
             catch (Exception ex)
             {
