@@ -26,6 +26,23 @@ namespace filter_design_gui
         }
 
         /**
+         * Calculate a highpass FIR filter using Math.NET Filtering (https://www.mathdotnet.com/)
+         */
+        public static double[] CalcHighpassFilterMathDotNet(double sampleRate, double cutoffFrequency, int filterLength, MathNet.Filtering.Windowing.Window window)
+        {
+            var mathNetCoeffs = MathNet.Filtering.FIR.FirCoefficients.HighPass(sampleRate, cutoffFrequency, filterLength / 2);
+            window.Width = mathNetCoeffs.Length;
+            window.Precompute();
+            var windowArray = window.CopyToArray();
+            for (int i = 0; i < mathNetCoeffs.Count(); i++)
+            {
+                mathNetCoeffs[i] *= windowArray[i];
+            }
+
+            return mathNetCoeffs;
+        }
+
+        /**
          * Calculate a bandpass FIR filter using Math.NET Filtering (https://www.mathdotnet.com/)
          */
         public static double[] CalcBandpassFilterMathDotNet(double sampleRate, double cutoffFrequencyLow, double cutoffFrequencyHigh, int filterLength, MathNet.Filtering.Windowing.Window window)

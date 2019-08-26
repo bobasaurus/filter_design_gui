@@ -54,11 +54,10 @@
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonCopyCSV = new System.Windows.Forms.Button();
             this.clearButton = new System.Windows.Forms.Button();
-            this.buttonLPNWaves = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxCutoffFrequency2 = new System.Windows.Forms.TextBox();
             this.buttonBPMathNET = new System.Windows.Forms.Button();
-            this.buttonBPNWaves = new System.Windows.Forms.Button();
+            this.buttonHPMathNet = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageFrequencyLog.SuspendLayout();
             this.tabPageFrequencyLinear.SuspendLayout();
@@ -341,17 +340,6 @@
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
-            // buttonLPNWaves
-            // 
-            this.buttonLPNWaves.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonLPNWaves.Location = new System.Drawing.Point(691, 39);
-            this.buttonLPNWaves.Name = "buttonLPNWaves";
-            this.buttonLPNWaves.Size = new System.Drawing.Size(139, 23);
-            this.buttonLPNWaves.TabIndex = 1;
-            this.buttonLPNWaves.Text = "Calc Lowpass NWaves";
-            this.buttonLPNWaves.UseVisualStyleBackColor = true;
-            this.buttonLPNWaves.Click += new System.EventHandler(this.ButtonLPNWaves_Click);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -373,7 +361,7 @@
             // buttonBPMathNET
             // 
             this.buttonBPMathNET.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBPMathNET.Location = new System.Drawing.Point(691, 67);
+            this.buttonBPMathNET.Location = new System.Drawing.Point(691, 41);
             this.buttonBPMathNET.Name = "buttonBPMathNET";
             this.buttonBPMathNET.Size = new System.Drawing.Size(139, 23);
             this.buttonBPMathNET.TabIndex = 20;
@@ -381,27 +369,26 @@
             this.buttonBPMathNET.UseVisualStyleBackColor = true;
             this.buttonBPMathNET.Click += new System.EventHandler(this.ButtonBPMathNET_Click);
             // 
-            // buttonBPNWaves
+            // buttonHPMathNet
             // 
-            this.buttonBPNWaves.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBPNWaves.Location = new System.Drawing.Point(691, 96);
-            this.buttonBPNWaves.Name = "buttonBPNWaves";
-            this.buttonBPNWaves.Size = new System.Drawing.Size(139, 23);
-            this.buttonBPNWaves.TabIndex = 21;
-            this.buttonBPNWaves.Text = "Calc Bandpass NWaves";
-            this.buttonBPNWaves.UseVisualStyleBackColor = true;
-            this.buttonBPNWaves.Click += new System.EventHandler(this.ButtonBPNWaves_Click);
+            this.buttonHPMathNet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonHPMathNet.Location = new System.Drawing.Point(691, 70);
+            this.buttonHPMathNet.Name = "buttonHPMathNet";
+            this.buttonHPMathNet.Size = new System.Drawing.Size(139, 23);
+            this.buttonHPMathNet.TabIndex = 21;
+            this.buttonHPMathNet.Text = "Calc Highpass Math.NET";
+            this.buttonHPMathNet.UseVisualStyleBackColor = true;
+            this.buttonHPMathNet.Click += new System.EventHandler(this.ButtonHPMathNet_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(842, 688);
-            this.Controls.Add(this.buttonBPNWaves);
+            this.Controls.Add(this.buttonHPMathNet);
             this.Controls.Add(this.buttonBPMathNET);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBoxCutoffFrequency2);
-            this.Controls.Add(this.buttonLPNWaves);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.buttonCopyCSV);
             this.Controls.Add(this.buttonCopy);
@@ -458,11 +445,10 @@
         private ZedGraph.ZedGraphControl zgcFrequencyResponseLinear;
         private System.Windows.Forms.TabPage tabPageStepResponse;
         private ZedGraph.ZedGraphControl zgcStepResponse;
-        private System.Windows.Forms.Button buttonLPNWaves;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxCutoffFrequency2;
         private System.Windows.Forms.Button buttonBPMathNET;
-        private System.Windows.Forms.Button buttonBPNWaves;
+        private System.Windows.Forms.Button buttonHPMathNet;
     }
 }
 

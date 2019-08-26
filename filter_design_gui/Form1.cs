@@ -39,34 +39,6 @@ namespace filter_design_gui
             comboBoxWindow.SelectedIndex = Properties.Settings.Default.windowIndex;
         }
 
-        private NWaves.Windows.WindowTypes GetNWavesWindowFromString(string value)
-        {
-            //NOTE: there are more options available in NWaves, maybe make them available in GUI someday
-            switch (value)
-            {
-                case "BartlettHann":
-                    return NWaves.Windows.WindowTypes.BartlettHann;
-                case "Blackman":
-                    return NWaves.Windows.WindowTypes.Blackman;
-                case "FlatTop":
-                    return NWaves.Windows.WindowTypes.Flattop;
-                case "Gauss":
-                    return NWaves.Windows.WindowTypes.Gaussian;
-                case "Hamming":
-                    return NWaves.Windows.WindowTypes.Hamming;
-                case "Hann":
-                    return NWaves.Windows.WindowTypes.Hann;
-                case "Lanczos":
-                    return NWaves.Windows.WindowTypes.Lanczos;
-                case "Rectangular":
-                    return NWaves.Windows.WindowTypes.Rectangular;
-                case "Triangular":
-                    return NWaves.Windows.WindowTypes.Triangular;
-                default:
-                    throw new Exception("Invalid window type for NWaves: " + value);
-            }
-        }
-
         private MathNet.Filtering.Windowing.Window GetMathNETWindowFromString(string value, double gaussSigma)
         {
             switch (value)
@@ -304,29 +276,6 @@ namespace filter_design_gui
             }
         }
 
-        private void ButtonLPNWaves_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                double sampleRate = double.Parse(textBoxSampleRate.Text);
-                double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
-
-                int filterLength = int.Parse(textBoxFilterLength.Text);
-
-                var windowStr = comboBoxWindow.Text;
-                var window = GetNWavesWindowFromString(windowStr);
-
-                double[] coeffs = FilterCalc.CalcLowpassFilterNWaves(sampleRate, cutoffFreq1, filterLength, window);
-
-                string name = string.Format("NWaves LP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq1);
-                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, double.NaN);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
         private void ButtonCopy_Click(object sender, EventArgs e)
         {
             var text = richTextBoxCoeffs.Text.Trim();
@@ -391,30 +340,56 @@ namespace filter_design_gui
             }
         }
 
-        private void ButtonBPNWaves_Click(object sender, EventArgs e)
+        private void ButtonHPMathNet_Click(object sender, EventArgs e)
         {
             try
             {
                 double sampleRate = double.Parse(textBoxSampleRate.Text);
                 double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
-                double cutoffFreq2 = double.NaN;
-                if (textBoxCutoffFrequency2.Text.Trim() != "")
-                    cutoffFreq2 = double.Parse(textBoxCutoffFrequency2.Text);
 
                 int filterLength = int.Parse(textBoxFilterLength.Text);
+                //only used for the Gauss window
+                double gaussSigma = double.Parse(textBoxGaussSigma.Text);
 
                 var windowStr = comboBoxWindow.Text;
-                var window = GetNWavesWindowFromString(windowStr);
+                var window = GetMathNETWindowFromString(windowStr, gaussSigma);
+                if (window == null) throw new Exception("Unable to determine window type");
 
-                double[] coeffs = FilterCalc.CalcBandpassFilterNWaves(sampleRate, cutoffFreq1, cutoffFreq2, filterLength, window);
+                double[] coeffs = FilterCalc.CalcHighpassFilterMathDotNet(sampleRate, cutoffFreq1, filterLength, window);
 
-                string name = string.Format("NWaves BP, SR: {0:0.}, Fc1: {1:0.0}, Fc2: {2:0.0}, " + windowStr, sampleRate, cutoffFreq1, cutoffFreq2);
-                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
+                string name = string.Format("Math.NET HP, SR: {0:0.}, Fc: {1:0.0}, " + windowStr, sampleRate, cutoffFreq1);
+                UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, double.NaN);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
+
+        //private void ButtonBPNWaves_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        double sampleRate = double.Parse(textBoxSampleRate.Text);
+        //        double cutoffFreq1 = double.Parse(textBoxCutoffFrequency1.Text);
+        //        double cutoffFreq2 = double.NaN;
+        //        if (textBoxCutoffFrequency2.Text.Trim() != "")
+        //            cutoffFreq2 = double.Parse(textBoxCutoffFrequency2.Text);
+
+        //        int filterLength = int.Parse(textBoxFilterLength.Text);
+
+        //        var windowStr = comboBoxWindow.Text;
+        //        var window = GetNWavesWindowFromString(windowStr);
+
+        //        double[] coeffs = FilterCalc.CalcBandpassFilterNWaves(sampleRate, cutoffFreq1, cutoffFreq2, filterLength, window);
+
+        //        string name = string.Format("NWaves BP, SR: {0:0.}, Fc1: {1:0.0}, Fc2: {2:0.0}, " + windowStr, sampleRate, cutoffFreq1, cutoffFreq2);
+        //        UpdateFilterResults(sampleRate, coeffs, name, cutoffFreq1, cutoffFreq2);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.ToString());
+        //    }
+        //}
     }
 }
